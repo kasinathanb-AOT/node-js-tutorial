@@ -28,6 +28,18 @@ const fetchTasks = (req, res) => {
   res.status(500).json({ message: "No Tasks Available" });
 };
 
+// Fetch task by id
+const getTaskById = (req, res) => {
+
+  const { id } = req.params;
+  const task = tasks.find((tasks) => tasks.id == id);
+  if (task) {
+    res.status(200).json({ task });
+  } else {
+    res.status(404).json({ message: "Task not found" });
+  }
+};
+
 // Updating the existing task
 const updateTasks = (req, res) => {
   const id = req.params.id;
@@ -50,18 +62,17 @@ const deleteTask = (req, res) => {
   const id = req.params.id;
   const task = tasks.find((task) => task.id === id);
   if (task) {
-   const task = tasks.filter((task) => task.id !== id);
-   res.send({message:`Task with ${id} is deleted`})
-  } 
-  else{
-      res.status(404).json({ message: "Task not found" });
+    const task = tasks.filter((task) => task.id !== id);
+    res.send({ message: `Task with ${id} is deleted` });
+  } else {
+    res.status(404).json({ message: "Task not found" });
   }
-
 };
 
 module.exports = {
   addTask,
   fetchTasks,
+  getTaskById,
   updateTasks,
   deleteTask,
 };
